@@ -1,0 +1,21 @@
+//Passworless auth
+ssh-copy-id -f "-o IdentityFile <PATH TO PEM FILE>" ubuntu@<INSTANCE-PUBLIC-IP>
+
+sudo ansible -i ~/Desktop/aws/inventory.ini -m copy -a 'src=~/Desktop/linux.txt dest=/home/ubuntu' all
+
+sudo ansible-playbook -i ~/Desktop/aws/inventory.ini fplaybook.yaml
+
+ansible-galaxy role init test
+
+//Vault
+openssl rand -base64 2048 > vault.pass
+ansible-vault create group_vars/all/pass.yml --vault-password-file vault.pass
+
+
+
+
+The galaxy certificate issue can be solved by 
+pip install certifi
+CERT_PATH=$(python -m certifi)
+export SSL_CERT_FILE=${CERT_PATH}
+export REQUESTS_CA_BUNDLE=${CERT_PATH}
